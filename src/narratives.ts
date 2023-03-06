@@ -1,4 +1,5 @@
 export * as format from "./format";
+export * as timeseries from "./timeseries";
 
 export interface Narrative {
   template: (model: any) => string;

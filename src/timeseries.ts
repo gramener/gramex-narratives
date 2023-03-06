@@ -111,7 +111,17 @@ export const narratives: Narrative[] = [
   {
     template: ({ growth, prev, last, value }) =>
       `${value} increased by ${pc(growth)} from ${num(prev)} to ${num(last)}.`,
-    if: ({ growth }) => growth !== null,
+    if: ({ growth }) => growth > 0,
+  },
+  {
+    template: ({ growth, prev, last, value }) =>
+      `${value} fell by ${pc(-growth)} from ${num(prev)} to ${num(last)}.`,
+    if: ({ growth }) => growth < 0,
+  },
+  {
+    template: ({ growth, prev, last, value }) =>
+      `${value} remained at ${num(last)}.`,
+    if: ({ growth }) => growth === 0,
   },
   {
     template: ({ growth, runs, time }) =>
