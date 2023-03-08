@@ -11,9 +11,9 @@ export interface Model {
   data: Row[];
   time: string;
   value: string;
-  last: number;
-  prev: number;
-  growth: number;
+  last: number | null;
+  prev: number | null;
+  growth: number | null;
   runs: number;
   maxGrowthSince: number;
   maxValueSince: number;
@@ -22,17 +22,16 @@ export interface Model {
 
 export const model = function (data: Row[], config?: Config) {
   const conf = Object.assign({ time: "time", value: "value" }, config);
-  let last = null,
-    prev = null,
-    growth = null,
-    runs = null,
-    maxGrowthSince = null,
-    maxDiffSince = null,
-    maxValueSince = null;
+  let last: number | null = null,
+    prev: number | null = null,
+    growth: number | null = null,
+    runs: number = 0,
+    maxGrowthSince: number = 0,
+    maxDiffSince: number = 0,
+    maxValueSince: number = 0;
 
   // Create a copy of the data to sort it and add properties without changing original data
   data = data.map(Object.create);
-  data.sort((a, b) => a[conf.time] - b[conf.time]);
   for (let i = 1; i < data.length; i++) {
     const last = data[i][conf.value];
     const prev = data[i - 1][conf.value];
@@ -53,29 +52,28 @@ export const model = function (data: Row[], config?: Config) {
     growth = data[data.length - 1].growth;
     const diff = data[data.length - 1].diff;
 
-    function maxSince({ key, val: val, diff, until = 1, start = -2 }: MaxSinceConfig) {
+    function countBack(
+      check: (v: Row) => boolean,
+      { until = 1, init = 0 }: { until?: number; init?: number } = {}
+    ) {
       let count: number = 0;
-      if (diff > 0)
-        for (let i = data.length + start; i >= until; i--)
-          if (data[i][key] <= val) count++;
-          else return count;
-      else if (diff < 0)
-        for (let i = data.length + start; i >= until; i--)
-          if (data[i][key] >= val) count++;
-          else return count;
-      return count > 0 ? count : null;
+      for (let i = data.length - 2; i >= until; i--) {
+        if (check(data[i])) count = (count || init) + 1;
+        else break;
+      }
+      return count;
     }
-    runs = maxSince({ key: "diff", val: 0, diff: -diff, start: -1 });
-    if (!runs || runs == 1) {
-      const reverseRuns = maxSince({ key: "diff", val: 0, diff: diff, start: -2 });
-      if (reverseRuns !== null && reverseRuns > 1) runs = -reverseRuns;
+    if (diff > 0) {
+      runs = countBack((v) => v.diff >= 0) || -countBack((v) => v.diff <= 0);
+      maxValueSince = countBack((v) => (last as number) > v[conf.value], { until: 0, init: 1 });
+      maxGrowthSince = countBack((v) => (growth as number) > v.growth, { init: 1 });
+      maxDiffSince = countBack((v) => (diff as number) > v.diff, { init: 1 });
+    } else if (diff < 0) {
+      runs = countBack((v) => v.diff <= 0) || -countBack((v) => v.diff >= 0);
+      maxValueSince = countBack((v) => (last as number) < v[conf.value], { until: 0, init: 1 });
+      maxGrowthSince = countBack((v) => (growth as number) < v.growth, { init: 1 });
+      maxDiffSince = countBack((v) => (diff as number) < v.diff, { init: 1 });
     }
-    // maxValueSince is low long ago we had such a large value
-    // maxGrowthSince is how long ago we had such a large growth
-    // maxDiffSince is low long ago we had such a large jump
-    maxValueSince = maxSince({ key: conf.value, val: last, diff, until: 0 });
-    maxGrowthSince = maxSince({ key: "growth", val: growth, diff });
-    maxDiffSince = maxSince({ key: "diff", val: diff, diff });
   }
 
   return {
@@ -83,52 +81,48 @@ export const model = function (data: Row[], config?: Config) {
     last: nullify(last),
     prev: nullify(prev),
     growth: nullify(growth),
-    runs: nullify(runs),
-    maxGrowthSince: nullify(maxGrowthSince),
-    maxValueSince: nullify(maxValueSince),
-    maxDiffSince: nullify(maxDiffSince),
+    runs,
+    maxGrowthSince,
+    maxValueSince,
+    maxDiffSince,
     ...conf,
   } as Model;
 };
 
-/** JSON does not support undefined, NaN or Infinity. Convert such values to null */
+// JSON does not support undefined, NaN or Infinity. Convert such values to null
 function nullify(value: any) {
   return typeof value == "undefined" || isNaN(value) || !isFinite(value) ? null : value;
 }
 
-interface MaxSinceConfig {
-  key: string;
-  val: number;
-  diff: number;
-  until?: number;
-  start?: number;
-}
-
 import { pc, num } from "./format";
-import { Narrative } from "./narratives";
+import { Narrative } from "../index";
 
 export const narratives: Narrative[] = [
   {
+    name: "growth",
     template: ({ growth, prev, last, value }) =>
       `${value} increased by ${pc(growth)} from ${num(prev)} to ${num(last)}.`,
     if: ({ growth }) => growth > 0,
   },
   {
+    name: "growth",
     template: ({ growth, prev, last, value }) =>
       `${value} fell by ${pc(-growth)} from ${num(prev)} to ${num(last)}.`,
     if: ({ growth }) => growth < 0,
   },
   {
-    template: ({ growth, prev, last, value }) =>
-      `${value} remained at ${num(last)}.`,
+    name: "growth",
+    template: ({ growth, prev, last, value }) => `${value} remained at ${num(last)}.`,
     if: ({ growth }) => growth === 0,
   },
   {
+    name: "trend",
     template: ({ growth, runs, time }) =>
       `It steadily ${growth > 0 ? "increased" : "decreased"} over ${runs} ${time}.`,
     if: ({ runs }) => runs >= 3,
   },
   {
+    name: "trend",
     template: ({ growth, runs, time }) =>
       `It reversed a ${-runs} ${time} ${growth > 0 ? "degrowth" : "growth"} trend.`,
     if: ({ runs }) => runs <= -3,
@@ -142,5 +136,10 @@ export const narratives: Narrative[] = [
     template: ({ growth, maxValueSince, value, time }) =>
       `It's the ${growth > 0 ? "highest" : "lowest"} ${value} in ${maxValueSince} ${time}.`,
     if: ({ maxValueSince }) => maxValueSince >= 3,
+  },
+  {
+    template: ({ growth, maxDiffSince, time }) =>
+      `It's the biggest ${growth > 0 ? "rise" : "fall"} in ${maxDiffSince} ${time}.`,
+    if: ({ maxDiffSince }) => maxDiffSince >= 3,
   },
 ];

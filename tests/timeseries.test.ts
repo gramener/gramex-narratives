@@ -5,10 +5,10 @@ function checkNulls(result: Model) {
   expect(result.last).toBe(null);
   expect(result.prev).toBe(null);
   expect(result.growth).toBe(null);
-  expect(result.runs).toBe(null);
-  expect(result.maxGrowthSince).toBe(null);
-  expect(result.maxValueSince).toBe(null);
-  expect(result.maxDiffSince).toBe(null);
+  expect(result.runs).toBe(0);
+  expect(result.maxGrowthSince).toBe(0);
+  expect(result.maxValueSince).toBe(0);
+  expect(result.maxDiffSince).toBe(0);
 }
 
 describe("timeseries edge cases", () => {

@@ -1,6 +1,6 @@
 import { describe, expect, test } from "@jest/globals";
 import { Row } from "../src/timeseries";
-import { narrate, timeseries } from "../src/narratives";
+import { narrate, timeseries } from "../index";
 
 describe("narrate timeseries", () => {
   test("growth", () => {
@@ -21,7 +21,7 @@ describe("narrate timeseries", () => {
     const cols = { time: "month", value: "NPS" };
     const result = timeseries.model(data, cols);
     expect(narrate(result, timeseries.narratives)).toBe(
-      "NPS fell by 1.3% from 77 to 76. It reversed a 3 month growth trend. It's the highest degrowth in 3 month."
+      "NPS fell by 1.3% from 77 to 76. It reversed a 3 month growth trend. It's the highest degrowth in 4 month. It's the biggest fall in 4 month."
     );
   });
 });

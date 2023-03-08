@@ -1,7 +1,8 @@
-export * as format from "./format";
-export * as timeseries from "./timeseries";
+export * as format from "./src/format";
+export * as timeseries from "./src/timeseries";
 
 export interface Narrative {
+  name?: string,
   template: (model: any) => string;
   if?: (model: any) => boolean;
 }
