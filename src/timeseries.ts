@@ -95,51 +95,54 @@ function nullify(value: any) {
 }
 
 import { pc, num } from "./format";
-import { Narrative } from "../index";
+import { Template } from "../index";
 
-export const narratives: Narrative[] = [
+export const narratives: Template[] = [
   {
     name: "growth",
     template: ({ growth, prev, last, value }) =>
       `${value} increased by ${pc(growth)} from ${num(prev)} to ${num(last)}.`,
-    if: ({ growth }) => growth > 0,
+    if: ({ growth, minGrowth = 0 }) => growth >= minGrowth,
   },
   {
     name: "growth",
     template: ({ growth, prev, last, value }) =>
       `${value} fell by ${pc(-growth)} from ${num(prev)} to ${num(last)}.`,
-    if: ({ growth }) => growth < 0,
+    if: ({ growth, minGrowth = 0 }) => growth <= -minGrowth,
   },
   {
     name: "growth",
     template: ({ growth, prev, last, value }) => `${value} remained at ${num(last)}.`,
-    if: ({ growth }) => growth === 0,
+    if: ({ growth, minGrowth = 0 }) => growth < minGrowth && growth > -minGrowth,
   },
   {
-    name: "trend",
+    name: "runs",
     template: ({ growth, runs, time }) =>
       `It steadily ${growth > 0 ? "increased" : "decreased"} over ${runs} ${time}.`,
-    if: ({ runs }) => runs >= 3,
+    if: ({ runs, minRuns = 3 }) => runs >= minRuns,
   },
   {
-    name: "trend",
+    name: "runs",
     template: ({ growth, runs, time }) =>
       `It reversed a ${-runs} ${time} ${growth > 0 ? "degrowth" : "growth"} trend.`,
-    if: ({ runs }) => runs <= -3,
+    if: ({ runs, minRuns = 3 }) => runs <= -minRuns,
   },
   {
+    name: "maxGrowth",
     template: ({ growth, maxGrowthSince, time }) =>
       `It's the highest ${growth > 0 ? "growth" : "degrowth"} in ${maxGrowthSince} ${time}.`,
-    if: ({ maxGrowthSince }) => maxGrowthSince >= 3,
+    if: ({ maxGrowthSince, minSince = 3 }) => maxGrowthSince >= minSince,
   },
   {
+    name: "maxValue",
     template: ({ growth, maxValueSince, value, time }) =>
       `It's the ${growth > 0 ? "highest" : "lowest"} ${value} in ${maxValueSince} ${time}.`,
-    if: ({ maxValueSince }) => maxValueSince >= 3,
+    if: ({ maxValueSince, minSince = 3 }) => maxValueSince >= minSince,
   },
   {
+    name: "maxDiff",
     template: ({ growth, maxDiffSince, time }) =>
       `It's the biggest ${growth > 0 ? "rise" : "fall"} in ${maxDiffSince} ${time}.`,
-    if: ({ maxDiffSince }) => maxDiffSince >= 3,
+    if: ({ maxDiffSince, minSince = 3 }) => maxDiffSince >= minSince,
   },
 ];

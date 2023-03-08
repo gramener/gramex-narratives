@@ -17,6 +17,44 @@ Given the data for this NPS time series:
 2. It reversed a 3 month growth trend.
 3. It's the highest degrowth in 3 months.
 
+## Usage
+
+Use this script to generate the above output.
+
+```html
+<script type="module">
+import { narrate, timeseries } from "node_modules/narratives/narratives.mjs";
+
+const data = [
+  { month: "Jan", NPS: 78 },
+  { month: "Feb", NPS: 75 },
+  { month: "Mar", NPS: 77 },
+  { month: "Apr", NPS: 78 },
+  { month: "May", NPS: 80 },
+  { month: "Jun", NPS: 82 },
+  { month: "Jul", NPS: 84 },
+  { month: "Aug", NPS: 70 },
+  { month: "Sep", NPS: 72 },
+  { month: "Oct", NPS: 73 },
+  { month: "Nov", NPS: 77 },
+  { month: "Dec", NPS: 76 },
+];
+const model = timeseries.model(data, { time: "month", value: "NPS" });
+const story = narrate({ ...model, minGrowth = 0.005 }, timeseries.narratives)
+console.log(story.map(v => v.text).join(" "))
+</script>
+```
+
+`story` is an array of narrative objects:
+
+```js
+[
+  { "text": "NPS fell by 1.3% from 77 to 76.", "name": "growth" },
+  { "text": "It reversed a 3 month growth trend.", "name": "runs" },
+  { "text": "It's the highest degrowth in 3 months.", "name": "maxGrowth" },
+]
+```
+
 ## Narratives _focus_ on and _explain_ what's important
 
 Why do we need narratives?
@@ -79,39 +117,12 @@ For example, `formats.num(3.1415)` returns `3.14` and `formats.num(1000000)` ret
 
 ## Calibrate for emotion
 
-**TODO**
+Status: **TODO**
 
 ## Synonyms break monotony
 
-**TODO**
+Status: **TODO**
 
-## Usage
-
-Use this script to generate the above output.
-
-```html
-<script type="module">
-import { narrate, timeseries } from "node_modules/narratives/narratives.mjs";
-
-const data = [
-  { month: "Jan", NPS: 78 },
-  { month: "Feb", NPS: 75 },
-  { month: "Mar", NPS: 77 },
-  { month: "Apr", NPS: 78 },
-  { month: "May", NPS: 80 },
-  { month: "Jun", NPS: 82 },
-  { month: "Jul", NPS: 84 },
-  { month: "Aug", NPS: 70 },
-  { month: "Sep", NPS: 72 },
-  { month: "Oct", NPS: 73 },
-  { month: "Nov", NPS: 77 },
-  { month: "Dec", NPS: 76 },
-];
-const model = timeseries.model(data, { time: "month", value: "NPS" });
-const story = narrate(model, timeseries.narratives)
-console.log(story);
-</script>
-```
 
 ## Build setup
 

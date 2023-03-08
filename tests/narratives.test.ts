@@ -20,8 +20,11 @@ describe("narrate timeseries", () => {
     ];
     const cols = { time: "month", value: "NPS" };
     const result = timeseries.model(data, cols);
-    expect(narrate(result, timeseries.narratives)).toBe(
-      "NPS fell by 1.3% from 77 to 76. It reversed a 3 month growth trend. It's the highest degrowth in 4 month. It's the biggest fall in 4 month."
-    );
+    expect(narrate(result, timeseries.narratives)).toStrictEqual([
+      { text: "NPS fell by 1.3% from 77 to 76.", name: "growth" },
+      { text: "It reversed a 3 month growth trend.", name: "runs" },
+      { text: "It's the highest degrowth in 4 month.", name: "maxGrowth" },
+      { text: "It's the biggest fall in 4 month.", name: "maxDiff" },
+    ]);
   });
 });
