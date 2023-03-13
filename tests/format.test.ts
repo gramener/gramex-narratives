@@ -63,7 +63,6 @@ describe("number", () => {
   });
 });
 
-
 describe("date", () => {
   /*
     | `dmy`       | `mdy`        | `dm`   | `md`   | `wdmy`           |
@@ -99,4 +98,4 @@ describe("list", () => {
   test("or", () => {
     expect(or(["X", "Y", "Z"])).toBe("X, Y, or Z");
   });
-})
+});
