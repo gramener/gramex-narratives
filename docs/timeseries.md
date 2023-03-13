@@ -1,16 +1,26 @@
 # Time series
 
-## Data
+E.g. population by year. It has a number (population) and a label (year) for time.
 
-Time series datasets are arrays of objects with 2 keys:
+## Narratives
 
-- a number (population)
-- a label (year) that has uniform intervals
+Time may have multiple periods (e.g. month, quarter, year). These narratives apply for each period:
 
-Example:
+- `growth`:
+  - "NPS increased by 4% from 75 to 78." if `growth >= minGrowth` (default: 0)
+  - "NPS fell by 3.8% from 78 to 75." if `growth <= -minGrowth` (default: 0)
+  - "NPS remained at 75." if `growth` is between -minGrowth and minGrowth (default: 0)
+- `runs`:
+  - "It steadily increased over 3 months." if `runs >= minRuns` (default: 3)
+  - "It reversed a 3-month growth trend." if `runs <= -minRuns` (default: 3)
+- `maxGrowth`: "It's the highest growth in 3 months." if `maxGrowthSince >= minSince` (default: 3)
+- `maxValue`: "It's the highest NPS in 3 months." if `maxValueSince >= minSince` (default: 3)
+- `maxDiff`: "It's the biggest rise in 3 months." if `maxDiffSince >= minSince` (default: 3)
+
+## Usage
 
 ```js
-const model = timeseries.model([
+const data = [
   { month: "Jan", NPS: 78 },
   { month: "Feb", NPS: 75 },
   { month: "Mar", NPS: 77 },
@@ -23,10 +33,18 @@ const model = timeseries.model([
   { month: "Oct", NPS: 73 },
   { month: "Nov", NPS: 77 },
   { month: "Dec", NPS: 76 },
-], {
+];
+const model = timeseries.model(data, {
   time: "month",  // name of the label key
   value: "NPS",   // name of the number key
+  periods: {      // TODO: compare with the previous value in these periods
+    "month": 1,
+    "quarter": 3,
+    "year": 12,
+  },
 });
+const story = narrate({ ...model, minGrowth = 0, minRuns = 3, minSince = 3 }, timeseries.narratives)
+console.log(story.map(v => v.text).join(" "))
 ```
 
 ## Model
@@ -58,39 +76,6 @@ The model is an object with these properties:
 
 If a value is undefined/missing, infinity, or not a number, it becomes `null`.
 
-## Narratives
+## Source
 
-The default narratives are:
-
-- `growth`:
-  - "NPS increased by 4% from 75 to 78." if `growth >= minGrowth` (default: 0)
-  - "NPS fell by 3.8% from 78 to 75." if `growth <= -minGrowth` (default: 0)
-  - "NPS remained at 75." if `growth` is between -minGrowth and minGrowth (default: 0)
-- `runs`:
-  - "It steadily increased over 3 months." if `runs >= minRuns` (default: 3)
-  - "It reversed a 3-month growth trend." if `runs <= -minRuns` (default: 3)
-- `maxGrowth`: "It's the highest growth in 3 months." if `maxGrowthSince >= minSince` (default: 3)
-- `maxValue`: "It's the highest NPS in 3 months." if `maxValueSince >= minSince` (default: 3)
-- `maxDiff`: "It's the biggest rise in 3 months." if `maxDiffSince >= minSince` (default: 3)
-
-## Usage
-
-```js
-const data = [
-  { month: "Jan", NPS: 78 },
-  { month: "Feb", NPS: 75 },
-  { month: "Mar", NPS: 77 },
-  { month: "Apr", NPS: 78 },
-  { month: "May", NPS: 80 },
-  { month: "Jun", NPS: 82 },
-  { month: "Jul", NPS: 84 },
-  { month: "Aug", NPS: 70 },
-  { month: "Sep", NPS: 72 },
-  { month: "Oct", NPS: 73 },
-  { month: "Nov", NPS: 77 },
-  { month: "Dec", NPS: 76 },
-];
-const model = timeseries.model(data, { time: "month", value: "NPS" });
-const story = narrate({ ...model, minGrowth = 0, minRuns = 3, minSince = 3 }, timeseries.narratives)
-console.log(story.map(v => v.text).join(" "))
-```
+[timeseries.ts](../src/timeseries.ts ':include :type=code')
