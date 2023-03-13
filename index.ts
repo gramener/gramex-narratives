@@ -20,6 +20,6 @@ export function narrate(model: any, narratives: Template[]) {
         name: n.name,
         text: n.template(model),
       };
-      return narrative
-    })
+      return narrative;
+    });
 }

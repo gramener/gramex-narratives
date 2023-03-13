@@ -7,12 +7,12 @@ Here are common formats.
 
 ## Percentages
 
-| `pc`     | `pc0`      | `pc1`     |
-|---------:|-----------:|----------:|
-| 0.38%    | 0%         | 0.4%      |
-| 3.8%     | 4%         | 3.8%      |
-| 38%      | 38%        | 38.1%     |
-| 381%     | 381%       | 381.0%    |
+|  `pc` | `pc0` |  `pc1` |
+| ----: | ----: | -----: |
+| 0.38% |    0% |   0.4% |
+|  3.8% |    4% |   3.8% |
+|   38% |   38% |  38.1% |
+|  381% |  381% | 381.0% |
 
 - `pc.format(value)`: **2-3 significant digits**: `381%`, `38.1%`, `3.81%`
   - People typically need just 2-3 digits to understand percentages.
@@ -28,13 +28,13 @@ Here are common formats.
 
 ## Numbers
 
-| `num`   | `num0`     | `num2`       |
-|--------:|-----------:|-------------:|
-| 0.038   | 0          | 0.04         |
-| 3.8     | 4          | 3.81         |
-| 381     | 381        | 381.04       |
-| 38K     | 38,104     | 38,103.69    |
-| 3.8M    | 3,810,369  | 3,810,369.24 |
+| `num` |    `num0` |       `num2` |
+| ----: | --------: | -----------: |
+| 0.038 |         0 |         0.04 |
+|   3.8 |         4 |         3.81 |
+|   381 |       381 |       381.04 |
+|   38K |    38,104 |    38,103.69 |
+|  3.8M | 3,810,369 | 3,810,369.24 |
 
 - `num.format(value)`: **2-3 significant digits**: `381`, `38K`, `3.8M`
   - People typically need just 2-3 digits to understand numbers.
@@ -50,8 +50,8 @@ Here are common formats.
 
 ## Dates
 
-| `dmy`       | `mdy`        | `dm`   | `md`   | `wdmy`           |
-|------------:|-------------:|-------:|-------:|-----------------:|
+|       `dmy` |        `mdy` |   `dm` |   `md` |           `wdmy` |
+| ----------: | -----------: | -----: | -----: | ---------------: |
 | 23 Jan 2023 | Jan 23, 2023 | 23 Jan | Jan 23 | Mon, 23 Jan 2023 |
 
 - `dmy.format(value)`: **Day Month Year**: `23 Jan 2023`
@@ -79,9 +79,9 @@ does not support output like `3 days, 6 hours ago`. Instead, use:
 
 ## Lists
 
-| `and`        | `or`        |
-|--------------|-------------|
-| X, Y, and Z  | X, Y, or Z  |
+| `and`       | `or`       |
+| ----------- | ---------- |
+| X, Y, and Z | X, Y, or Z |
 
 - `and.format(value)`: **List with "and"**: `X, Y and Z`
   - `and = new Intl.ListFormat("en-US", { style: "long", type: "conjunction" })`

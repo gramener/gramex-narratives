@@ -17,11 +17,13 @@ E.g. population by country. It has a number (population) and a label (country) w
 ![Donut](docs/img/icon-donut.png)
 ![Lollipop](docs/img/icon-lollipop.png)
 ![Isotype](docs/img/icon-isotype.png)
+
 <!-- Rasagy -->
 
 ### Ordered Series
 
 E.g. population by age group. It has a number (population) and a label (age group) whose order matters.
+
 <!-- Anand -->
 
 ![Column](docs/img/icon-column.png)
@@ -32,6 +34,7 @@ E.g. population by age group. It has a number (population) and a label (age grou
 ### [Time Series](docs/timeseries.md)
 
 E.g. population by year. It has a number (population) and a label (year) for time.
+
 <!-- Anand -->
 
 [![Line](docs/img/icon-line.png)](docs/timeseries.md)
@@ -42,6 +45,7 @@ E.g. population by year. It has a number (population) and a label (year) for tim
 ### Weighted Series
 
 E.g. growth vs sales. It has a 2 number (growth and sales). One shows performance (growth) and another shows size or priority (sales).
+
 <!-- Rasagy -->
 
 ![Treemap](docs/img/icon-treemap.png)
@@ -72,7 +76,7 @@ E.g. population by country and age group. It has a number (population) and 2 lab
 
 ### Time Matrix
 
- E.g. population by country over year. It has a number (population), a label (country) whose order does not matter, and a label (year) for time.
+E.g. population by country over year. It has a number (population), a label (country) whose order does not matter, and a label (year) for time.
 
 ![multiline](docs/img/icon-multiline.png)
 ![multiarea](docs/img/icon-multiarea.png)
@@ -112,7 +116,7 @@ Utilities make the narrative output more readable:
 Given this dataset:
 
 | Month | NPS |
-|-------|----:|
+| ----- | --: |
 | Jul   |  84 |
 | Aug   |  70 |
 | Sep   |  72 |
@@ -132,25 +136,25 @@ Use this script to generate the above output.
 
 ```html
 <script type="module">
-import { narrate, timeseries } from "node_modules/narratives/narratives.mjs";
+  import { narrate, timeseries } from "node_modules/narratives/narratives.mjs";
 
-const data = [
-  { month: "Jan", NPS: 78 },
-  { month: "Feb", NPS: 75 },
-  { month: "Mar", NPS: 77 },
-  { month: "Apr", NPS: 78 },
-  { month: "May", NPS: 80 },
-  { month: "Jun", NPS: 82 },
-  { month: "Jul", NPS: 84 },
-  { month: "Aug", NPS: 70 },
-  { month: "Sep", NPS: 72 },
-  { month: "Oct", NPS: 73 },
-  { month: "Nov", NPS: 77 },
-  { month: "Dec", NPS: 76 },
-];
-const model = timeseries.model(data, { time: "month", value: "NPS" });
-const story = narrate({ ...model, minGrowth = 0.005 }, timeseries.narratives)
-console.log(story.map(v => v.text).join(" "))
+  const data = [
+    { month: "Jan", NPS: 78 },
+    { month: "Feb", NPS: 75 },
+    { month: "Mar", NPS: 77 },
+    { month: "Apr", NPS: 78 },
+    { month: "May", NPS: 80 },
+    { month: "Jun", NPS: 82 },
+    { month: "Jul", NPS: 84 },
+    { month: "Aug", NPS: 70 },
+    { month: "Sep", NPS: 72 },
+    { month: "Oct", NPS: 73 },
+    { month: "Nov", NPS: 77 },
+    { month: "Dec", NPS: 76 },
+  ];
+  const model = timeseries.model(data, { time: "month", value: "NPS" });
+  const story = narrate({ ...model, minGrowth = 0.005 }, timeseries.narratives)
+  console.log(story.map(v => v.text).join(" "))
 </script>
 ```
 
@@ -158,10 +162,10 @@ console.log(story.map(v => v.text).join(" "))
 
 ```js
 [
-  { "text": "NPS fell by 1.3% from 77 to 76.", "name": "growth" },
-  { "text": "It reversed a 3 month growth trend.", "name": "runs" },
-  { "text": "It's the highest degrowth in 3 months.", "name": "maxGrowth" },
-]
+  { text: "NPS fell by 1.3% from 77 to 76.", name: "growth" },
+  { text: "It reversed a 3 month growth trend.", name: "runs" },
+  { text: "It's the highest degrowth in 3 months.", name: "maxGrowth" },
+];
 ```
 
 ## Build setup

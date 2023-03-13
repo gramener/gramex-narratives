@@ -78,4 +78,4 @@ If a value is undefined/missing, infinity, or not a number, it becomes `null`.
 
 ## Source
 
-[timeseries.ts](../src/timeseries.ts ':include :type=code')
+[timeseries.ts](../src/timeseries.ts ":include :type=code")

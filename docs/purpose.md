@@ -32,6 +32,6 @@ You can implement in any language (Excel, Tableau, Power BI, Python, etc.) It ha
 
 ## But it's not perfect
 
-**CONTEXT IS MISSING**. It focuses only on what the data says. We may not know that "Dec reversed a 4-month growth trend *because of inflation*" if it's not in the dataset.
+**CONTEXT IS MISSING**. It focuses only on what the data says. We may not know that "Dec reversed a 4-month growth trend _because of inflation_" if it's not in the dataset.
 
 But dashboards can't go beyond data. End users will find these patterns from data a good starting point to build on.

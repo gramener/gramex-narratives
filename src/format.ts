@@ -66,6 +66,4 @@ export const wdmy = _formatDate(
 export const and = _formatList(
   new Intl.ListFormat("en-US", { style: "long", type: "conjunction" })
 );
-export const or = _formatList(
-  new Intl.ListFormat("en-US", { style: "long", type: "disjunction" })
-);
+export const or = _formatList(new Intl.ListFormat("en-US", { style: "long", type: "disjunction" }));
