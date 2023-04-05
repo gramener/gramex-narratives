@@ -24,8 +24,6 @@ E.g. population by age group. It has a number (population) and a label (age grou
 
 ## Usage
 
-
 ## Model
-
 
 ## Source
