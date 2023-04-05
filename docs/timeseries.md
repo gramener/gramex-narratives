@@ -4,18 +4,19 @@ E.g. population by year. It has a number (population) and a label (year) for tim
 
 ## Narratives
 
-Time may have multiple periods (e.g. month, quarter, year). These narratives apply for each period:
+Time may have multiple periods (e.g. month, quarter, year). These narratives apply for each period **TODO**:
 
 - `growth`:
-  - "NPS increased by 4% from 75 to 78." if `growth >= minGrowth` (default: 0)
-  - "NPS fell by 3.8% from 78 to 75." if `growth <= -minGrowth` (default: 0)
-  - "NPS remained at 75." if `growth` is between -minGrowth and minGrowth (default: 0)
+  - "NPS increased by 4% from 75 to 78." if `growth >= minGrowth`
+  - "NPS fell by 3.8% from 78 to 75." if `growth <= -minGrowth`
+  - "NPS remained at 75." if `growth` is between -minGrowth and minGrowth
 - `runs`:
-  - "It steadily increased over 3 months." if `runs >= minRuns` (default: 3)
-  - "It reversed a 3-month growth trend." if `runs <= -minRuns` (default: 3)
-- `maxGrowth`: "It's the highest growth in 3 months." if `maxGrowthSince >= minSince` (default: 3)
-- `maxValue`: "It's the highest NPS in 3 months." if `maxValueSince >= minSince` (default: 3)
-- `maxDiff`: "It's the biggest rise in 3 months." if `maxDiffSince >= minSince` (default: 3)
+  - "It steadily increased over 3 months." if `runs >= minRuns`
+  - "It reversed a 3-month growth trend." if `runs <= -minRuns`
+- `maxGrowth`: "It's the highest growth in 3 months." if `maxGrowthSince >= minSince`
+- `maxValue`: "It's the highest NPS in 3 months." if `maxValueSince >= minSince`
+- `maxDiff`: "It's the biggest rise in 3 months." if `maxDiffSince >= minSince`
+- `trend`: "It's increased 0.3 per month over the last 6 months." if ... (**TODO**)
 
 ## Usage
 
@@ -43,7 +44,12 @@ const model = timeseries.model(data, {
     "year": 12,
   },
 });
-const story = narrate({ ...model, minGrowth = 0, minRuns = 3, minSince = 3 }, timeseries.narratives)
+const story = narrate({
+  ...model,
+  minGrowth = 0,
+  minRuns = 3,
+  minSince = 3
+}, timeseries.narratives)
 console.log(story.map(v => v.text).join(" "))
 ```
 

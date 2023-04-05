@@ -1,6 +1,6 @@
 # Formatters
 
-JavaScript supports the [`Intl`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#locale_identification_and_negotiation)
+JavaScript supports the [`Intl`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl)
 object to format numbers, dates, lists, etc. based on locale.
 
 Here are common formats.

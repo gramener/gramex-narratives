@@ -18,13 +18,9 @@ E.g. population by country. It has a number (population) and a label (country) w
 ![Lollipop](docs/img/icon-lollipop.png)
 ![Isotype](docs/img/icon-isotype.png)
 
-<!-- Rasagy -->
-
-### Ordered Series
+### [Ordered Series](docs/orderedseries.md)
 
 E.g. population by age group. It has a number (population) and a label (age group) whose order matters.
-
-<!-- Anand -->
 
 ![Column](docs/img/icon-column.png)
 ![Line](docs/img/icon-line.png)
@@ -35,8 +31,6 @@ E.g. population by age group. It has a number (population) and a label (age grou
 
 E.g. population by year. It has a number (population) and a label (year) for time.
 
-<!-- Anand -->
-
 [![Line](docs/img/icon-line.png)](docs/timeseries.md)
 [![Area](docs/img/icon-area.png)](docs/timeseries.md)
 [![Column](docs/img/icon-column.png)](docs/timeseries.md)
@@ -46,16 +40,15 @@ E.g. population by year. It has a number (population) and a label (year) for tim
 
 E.g. growth vs sales. It has a 2 number (growth and sales). One shows performance (growth) and another shows size or priority (sales).
 
-<!-- Rasagy -->
-
 ![Treemap](docs/img/icon-treemap.png)
 ![Marimekko](docs/img/icon-marimekko.png)
 
 ### Bivariate
 
-E.g. weight vs age. It has 2 numbers (weight and age) that we want to relate.
+E.g. weight vs age or budget vs target. It has 2 numbers (weight and age) that we want to relate.
 
 ![Scatterplot](docs/img/icon-scatterplot.png)
+![Bullet chart](docs/img/icon-bullet.png)
 
 <!--
 
