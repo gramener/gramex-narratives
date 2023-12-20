@@ -43,18 +43,30 @@ E.g. growth vs sales. It has a 2 number (growth and sales). One shows performanc
 ![Treemap](docs/img/icon-treemap.png)
 ![Marimekko](docs/img/icon-marimekko.png)
 
-### Bivariate
+### [Bivariate](docs/bivariate.md)
 
-E.g. weight vs age or budget vs target. It has 2 numbers (weight and age) that we want to relate.
+E.g. weight vs age or budget vs target. It has 2 numbers (weight and age) and a label (name) that we want to relate.
 
 ![Scatterplot](docs/img/icon-scatterplot.png)
 ![Bullet chart](docs/img/icon-bullet.png)
 
 <!--
+- Multi-series (where we need to GROUP to convert into a series)
+  - Same as series
 
-Multi-bivariate: colored scatterplot
 Weighted bivariate: bubble chart
 
+- Each has a tree version
+  - Tree series
+  - Tree ordered series
+  - Tree time series
+  - Tree weighted series
+  - Tree bivariate
+  - Tree matrix
+  - Tree time matrix
+  - Tree range series
+- Each has a time version(?)
+  - Time bivariate
 -->
 
 ### Matrix

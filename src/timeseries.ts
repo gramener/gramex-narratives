@@ -54,7 +54,7 @@ export const model = function (data: Row[], config?: Config) {
 
     function countBack(
       check: (v: Row) => boolean,
-      { until = 1, init = 0 }: { until?: number; init?: number } = {}
+      { until = 1, init = 0 }: { until?: number; init?: number } = {},
     ) {
       let count: number = 0;
       for (let i = data.length - 2; i >= until; i--) {

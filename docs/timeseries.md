@@ -18,6 +18,8 @@ Time may have multiple periods (e.g. month, quarter, year). These narratives app
 - `maxDiff`: "It's the biggest rise in 3 months." if `maxDiffSince >= minSince`
 - `trend`: "It's increased 0.3 per month over the last 6 months." if ... (**TODO**)
 
+<!-- variance trend ? -->
+
 ## Usage
 
 ```js
